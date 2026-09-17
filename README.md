@@ -9,6 +9,7 @@ A living index of Physical AI research across robots, drones, autonomous systems
 - Includes representative research links and a first-party research or publication source for every entry.
 - Keeps organization signals from the live feed separate from curated identities, avoiding guessed affiliations.
 - Labels Prime Intellect as adjacent open training infrastructure, not as a Physical AI research lab. Its published technical evidence is currently focused on distributed AI training.
+- Adds the user-supplied Google Research projects index, filtered to its Physical AI-relevant project (PaLM-SayCan) rather than ingested wholesale.
 
 ## How the curated map is selected
 
@@ -20,11 +21,12 @@ This is an editorial shortlist, not a universal ranking. Inclusion uses five vis
 4. Coverage across Physical AI areas rather than brand size or funding.
 5. Accessible evidence from official lab/publication pages or canonical paper metadata.
 
-Company marketing and funding announcements are not treated as research evidence. Broad publication indexes, including NVIDIA Research, are filtered to Physical AI work in robotics, simulation, embodied systems, autonomy, manipulation, and related learning methods rather than ingested wholesale. Organization types remain explicit: `Research lab`, `Physical AI company`, or `Open research infrastructure`.
+Company marketing and funding announcements are not treated as research evidence. Broad publication and project indexes, including NVIDIA Research publications and the Google Research projects index, are filtered to Physical AI work in robotics, simulation, embodied systems, autonomy, manipulation, and related learning methods rather than ingested wholesale. Organization types remain explicit: `Research lab`, `Physical AI company`, or `Open research infrastructure`.
 
 ## Primary sources
 
 - Google DeepMind Robotics: https://deepmind.google/research/publications/48151/
+- Google Research: https://research.google/resources/our-projects/
 - Physical Intelligence: https://www.pi.website/research
 - NVIDIA Robotics Research: https://research.nvidia.com/publications
 - Toyota Research Institute: https://www.tri.global/publications
