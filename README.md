@@ -20,13 +20,13 @@ This is an editorial shortlist, not a universal ranking. Inclusion uses five vis
 4. Coverage across Physical AI areas rather than brand size or funding.
 5. Accessible evidence from official lab/publication pages or canonical paper metadata.
 
-Company marketing and funding announcements are not treated as research evidence. Organization types remain explicit: `Research lab`, `Physical AI company`, or `Open research infrastructure`.
+Company marketing and funding announcements are not treated as research evidence. Broad publication indexes, including NVIDIA Research, are filtered to Physical AI work in robotics, simulation, embodied systems, autonomy, manipulation, and related learning methods rather than ingested wholesale. Organization types remain explicit: `Research lab`, `Physical AI company`, or `Open research infrastructure`.
 
 ## Primary sources
 
 - Google DeepMind Robotics: https://deepmind.google/research/publications/48151/
 - Physical Intelligence: https://www.pi.website/research
-- NVIDIA Robotics Research: https://www.nvidia.com/en-us/research/robotics/
+- NVIDIA Robotics Research: https://research.nvidia.com/publications
 - Toyota Research Institute: https://www.tri.global/publications
 - Stanford REAL: https://real.stanford.edu/
 - Berkeley RAIL: https://rail.eecs.berkeley.edu/publications.html
