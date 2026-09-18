@@ -11,6 +11,14 @@ A living index of Physical AI research across robots, drones, autonomous systems
 - Labels Prime Intellect as adjacent open training infrastructure, not as a Physical AI research lab. Its published technical evidence is currently focused on distributed AI training.
 - Adds the user-supplied Google Research projects index, filtered to its Physical AI-relevant project (PaLM-SayCan) rather than ingested wholesale.
 
+## What changed in v1.2
+
+- Every curated paper now carries two fields in `lib/curatedLabs.ts`: `summary` (what the paper itself does and shows) and `impact` (what that same paper contributed to industry).
+- `SUMMARY.md` is now a numbered per-paper document — Paper 01-41, each with title, lab, summary and contribution to industry — instead of one thematic synthesis. The earlier `deepseek-ai/DeepSeek-V4-Flash` synthesis is retained as an appendix.
+- The lab view renders the same summary-plus-industry pair under each paper, so the documents and the site cannot drift apart.
+- Paper-level accuracy fixes: the Isaac Lab and Isaac Sim titles now match the published papers, the 2026 Isaac Sim entry is flagged as an independent survey rather than an NVIDIA publication, and the memory (MEM) and RLT entries carry their 2026 publication dates.
+- Five curated links that are lab publication or project indexes — not single papers — stay labelled as source indexes and carry a scope description only.
+
 ## How the curated map is selected
 
 This is an editorial shortlist, not a universal ranking. Inclusion uses five visible criteria:
