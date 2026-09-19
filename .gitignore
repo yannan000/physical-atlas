@@ -5,3 +5,4 @@ node_modules/
 *.tsbuildinfo
 preview/
 .design-canvas/
+data/nvidia-crawl.json

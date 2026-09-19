@@ -40474,6 +40474,933 @@
     "graphicModel": "seedream-4-0-250828",
     "graphicRequestId": "2da2d13c-7040-470a-9a45-12dc9623355b"
    }
+  },
+  {
+   "id": "arxiv:2606.12706",
+   "key": "arxiv:2606.12706",
+   "arxiv": "2606.12706",
+   "doi": null,
+   "slug": "vladrivebench-evaluating-cot-action-relationship-in-vla-for",
+   "title": "VLADriveBench: Evaluating CoT-Action Relationship in VLA for Autonomous Driving",
+   "abstract": "Vision-language-action (VLA) models generate chain-of-thought (CoT) reasoning alongside driving trajectories, but existing benchmarks evaluate only trajectory quality and do not assess whether the CoT is relevant, consistent, or causally connected to the driving action. We introduce VLADriveBench, a framework that combines observational metrics (mentioning, hallucination, contradiction, action alignment) with a CoT intervention protocol to provide complementary views of the CoT-action relationship. Applying VLADriveBench to three models across two architectures, we find that the two analyses can diverge sharply: ORION scores highest on observational alignment yet its CoT is epiphenomenal, while Alpamayo v1.5 scores lower yet its CoT is strongly causal, with visual salience gating the extent of CoT influence.",
+   "authors": [
+    "Thach Nguyen",
+    "Danhua Guo",
+    "Tom Lampo",
+    "Fei Wu",
+    "Burhan Yaman"
+   ],
+   "publishedAt": "2026-06-10",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2606.12706",
+   "pdf": "https://arxiv.org/pdf/2606.12706",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 95% · autonomy 100% · significance 2.5/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.95,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "embodied": 0,
+        "simulation": 0,
+        "autonomy": 1,
+        "other": 0,
+        "robots": 0,
+        "drones": 0,
+        "locomotion": 0,
+        "manipulation": 0
+       }
+      },
+      "significance": {
+       "score": 1.55,
+       "confidence": 0.62,
+       "probabilities": {
+        "0": 0,
+        "1": 0.45,
+        "2": 0.55,
+        "3": 0,
+        "4": 0
+       }
+      },
+      "hardware": 0.06,
+      "open": 0.17,
+      "survey": 0.16,
+      "foundation": 0.72
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.55,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 95% · autonomy 100% · significance 2.5/5 · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:58:44.843Z",
+   "ai": {
+    "tldr": "Benchmark evaluates whether CoT reasoning in VLA models is causally linked to driving actions, revealing a divergence between alignment and causality.",
+    "whatChanged": "Before VLADriveBench, VLA model evaluations only checked driving trajectory accuracy, ignoring whether the model's chain-of-thought reasoning was actually used. This paper introduces metrics for CoT-action alignment and a causal intervention test, showing that high alignment does not guarantee causal influence.",
+    "soWhat": "It's like grading a student not just on their final answer but also on whether their scratch work actually helped them solve the problem. VLADriveBench checks if the car's 'thinking' steps really lead to its driving decisions, or if they are just excuses after the fact.",
+    "industry": "The paper provides a standardized benchmark for evaluating CoT quality in autonomous driving VLA models, which can guide model design choices. Companies building self-driving systems with explainable AI can use it to ensure their models' reasoning is genuinely causal, not just post-hoc rationalization.",
+    "keywords": [
+     "vla",
+     "chain-of-thought",
+     "autonomous driving",
+     "evaluation benchmark",
+     "causal reasoning",
+     "vision-language-action"
+    ],
+    "graphicPrompt": "A self-driving car on a road, with a thought bubble above showing linked nodes (chain-of-thought). In one scene, solid lines connect the bubble firmly to the car's steering wheel; in another, the bubble is separate with dashed lines drifting away.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:58:56.096Z",
+    "graphic": "/graphics/vladrivebench-evaluating-cot-action-relationship-in-vla-for.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "eb9fb077-9972-4dab-995d-8cbe3ff8da01"
+   }
+  },
+  {
+   "id": "arxiv:2608.12932",
+   "key": "arxiv:2608.12932",
+   "arxiv": "2608.12932",
+   "doi": null,
+   "slug": "flashdrive-flash-vision-language-action-inference-for",
+   "title": "FlashDrive: Flash Vision-Language-Action Inference for Autonomous Driving",
+   "abstract": "Vision-Language-Action (VLA) models promise to bring end-to-end reasoning to autonomous driving, but their computational cost remains far too high for real-time control. The core challenge is structural: VLA inference is not a single bottleneck but a cascade of four. Visual encoding wastes compute on overlapping video frames; language-model prefill recomputes context that could be carried over from the previous timestep; reasoning tokens are generated serially despite low entropy; and flow-matching denoising applies uniform compute to a non-uniform velocity field. Addressing any one stage in isolation leaves the others untouched. We propose FlashDrive, an algorithm-system co-design framework that targets all four stages simultaneously. Our key insight is that each bottleneck admits a distinct, lightweight algorithmic shortcut: temporal overlap enables streaming KV-cache reuse across frames; the low per-token entropy and strong intra-block correlations of driving-domain reasoning make a non-autoregressive diffusion drafter highly effective for speculative decoding; and the velocity field's structure---sharp at the endpoints, flat in the middle---permits adaptive step caching that concentrates compute where it matters. Layered on system-level CUDA Graph compilation and kernel fusion, these techniques compound. Applied to Alpamayo 1.5-10B with W4A8 quantization, FlashDrive reduces end-to-end latency from 717ms to 151ms (4.7x) while leaving accuracy essentially unchanged: minADE6@6.4s shifts by only 0.08m, minADE1 improves, and closed-loop collision and off-road rates improve in simulation. By raising a 10B-parameter reasoning VLA from 1.4~Hz to 6.6~Hz on a single GPU, FlashDrive moves end-to-end autonomous driving substantially closer to real-time deployment.",
+   "authors": [
+    "Zekai Li",
+    "Yihao Liang",
+    "Hongfei Zhang",
+    "Jian Chen",
+    "Yesheng Liang",
+    "Zhijian Liu"
+   ],
+   "publishedAt": "2026-08-13",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2608.12932",
+   "pdf": "https://arxiv.org/pdf/2608.12932",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 98% · autonomy 100% · significance 3.0/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.98,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "other": 0,
+        "simulation": 0,
+        "robots": 0,
+        "drones": 0,
+        "embodied": 0,
+        "locomotion": 0,
+        "autonomy": 1,
+        "manipulation": 0
+       }
+      },
+      "significance": {
+       "score": 1.97,
+       "confidence": 0.83,
+       "probabilities": {
+        "0": 0,
+        "1": 0.12,
+        "2": 0.79,
+        "3": 0.09,
+        "4": 0
+       }
+      },
+      "hardware": 0.07,
+      "open": 0.05,
+      "survey": 0.02,
+      "foundation": 0.97
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.97,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 98% · autonomy 100% · significance 3.0/5 · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:58:44.843Z",
+   "ai": {
+    "tldr": "FlashDrive accelerates VLA inference for autonomous driving by jointly optimizing four bottlenecks, achieving 4.7x speedup with minimal accuracy loss.",
+    "whatChanged": "Before this paper, VLA inference for autonomous driving was too slow for real-time control (e.g., 1.4 Hz). FlashDrive simultaneously addresses four structural bottlenecks through algorithmic shortcuts and system-level optimizations, reducing latency from 717ms to 151ms and enabling 6.6 Hz operation on a single GPU.",
+    "soWhat": "Imagine a self-driving car that needs to think step by step, but each step is slow. FlashDrive lets it skip unnecessary steps and reuse past thinking, so it can react much faster without making more mistakes.",
+    "industry": "This paper contributes practical techniques for deploying large VLA models in real-time autonomous driving systems. Engineers and researchers working on end-to-end driving stacks can use FlashDrive's methods (KV-cache reuse, speculative decoding with diffusion, adaptive step caching) to reduce inference latency. It makes a 10B-parameter reasoning VLA viable for single-GPU deployment, potentially lowering hardware requirements for autonomous vehicle prototypes.",
+    "keywords": [
+     "vla inference acceleration",
+     "autonomous driving",
+     "speculative decoding",
+     "kv-cache reuse",
+     "flow-matching denoising",
+     "cuda graph compilation"
+    ],
+    "graphicPrompt": "A diagram showing four bottlenecks in a pipeline, each with a shortcut arrow bypassing it. The shortcuts are labeled: temporal overlap, diffusion drafter, step caching. At the end, a clock shows reduced time.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:58:53.835Z",
+    "graphic": "/graphics/flashdrive-flash-vision-language-action-inference-for.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "af5a15a6-3661-4935-bbd4-f0ee9b343c61"
+   }
+  },
+  {
+   "id": "arxiv:2607.16938",
+   "key": "arxiv:2607.16938",
+   "arxiv": "2607.16938",
+   "doi": null,
+   "slug": "what-do-they-see-interpreting-complex-road-scenarios",
+   "title": "What Do They See? Interpreting Complex Road Scenarios Through the Eyes of Vision-Language-Action Models for Safe and Trustworthy Autonomous Vehicle Learning",
+   "abstract": "End-to-end autonomous driving models are now able to navigate complex road scenarios, mapping raw sensor observations directly to observed paths for open-loop evaluation and often effective driving in closed-loop evaluation. Yet the internal logic of these safety-critical systems remains largely opaque, due to the complexity of traffic scenes. We propose a counterfactual ablation framework called Counterfactual Vision Action Analysis (CVAA) that systematically removes individual detected objects from front-camera images using photorealistic generative inpainting to prepare counterfactual sets to evaluate the difference in the model's response. This isolates the causal effect of each object's presence on the model's planning behaviour. Applied to the Alpamayo 1 trajectory predictor across 210 nuScenes driving scenes, we create a dataset Counter -nuScenes, using which we see that vehicles and pedestrians within the model's 'path' dominate causal influence as expected, while traffic lights, as expected, exert disproportionate effect relative to their image footprint. However, we also find cases where the model responds strongly to objects a human driver would consider irrelevant. This brings forth a deeper question: does the model itself view the scene as a sum of individual objects influencing the outcome, or does it encode an entirely different set of internal features that do not correspond to human-legible scene elements? To further understand this, we compare intermediate representations of original and inpainted image pairs using mechanistic interpretability techniques and examine the effect of the removal through the various model layers. Together, these two stages offer a path from behavioral auditing to representational understanding, creating explainable driving systems and solidifying human-AI trust.",
+   "authors": [
+    "Kalpana Panda",
+    "Wesley Maia",
+    "Vinti Agarwal",
+    "Ross Greer"
+   ],
+   "publishedAt": "2026-07-18",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2607.16938",
+   "pdf": "https://arxiv.org/pdf/2607.16938",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 96% · autonomy 100% · significance 2.7/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.96,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "manipulation": 0,
+        "locomotion": 0,
+        "simulation": 0,
+        "drones": 0,
+        "robots": 0,
+        "other": 0,
+        "autonomy": 1,
+        "embodied": 0
+       }
+      },
+      "significance": {
+       "score": 1.69,
+       "confidence": 0.73,
+       "probabilities": {
+        "0": 0,
+        "1": 0.31,
+        "2": 0.69,
+        "3": 0,
+        "4": 0
+       }
+      },
+      "hardware": 0.04,
+      "open": 0.45,
+      "survey": 0.02,
+      "foundation": 0.7
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.69,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 96% · autonomy 100% · significance 2.7/5 · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:58:44.843Z",
+   "ai": {
+    "tldr": "A counterfactual ablation framework reveals which objects causally influence autonomous driving model planning, including surprising sensitivity to irrelevant objects.",
+    "whatChanged": "Before this paper, end-to-end autonomous driving models were black boxes; their internal reasoning was opaque. This work introduces a counterfactual ablation method that removes individual objects from images via inpainting to measure causal effects on planning, and combines this with mechanistic interpretability to trace how object removal propagates through model layers. It also releases Counter-nuScenes, a dataset of inpainted driving scenes, enabling systematic behavioral audits.",
+    "soWhat": "Imagine giving a driving AI a photo of a street, then digitally erasing one object at a time—like a car, a pedestrian, or a traffic light—and watching if its driving path changes. This tells us which things the AI really pays attention to, and sometimes it focuses on objects a human driver would ignore, helping engineers build safer and more trustworthy self-driving cars.",
+    "industry": "This paper contributes a practical method and dataset for auditing the causal reasoning of vision-language-action models in autonomous driving. Autonomous vehicle developers can use CVAA to identify unintended sensitivities in their models, safety auditors can validate that models focus on relevant objects, and interpretability researchers gain a tool to link behavioral output to internal representations. The Counter-nuScenes dataset directly supports benchmarking and debugging of planning models.",
+    "keywords": [
+     "counterfactual ablation",
+     "mechanistic interpretability",
+     "autonomous driving",
+     "vision-language-action models",
+     "causal influence",
+     "inpainting"
+    ],
+    "graphicPrompt": "A split scene: left side shows a car camera view of a street with a pedestrian and a traffic light; right side shows the same scene but the pedestrian erased via inpainting. Beneath the two images, a bar chart compares the model's planned path deviation between original and inpainted images.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:58:56.526Z",
+    "graphic": "/graphics/what-do-they-see-interpreting-complex-road-scenarios.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "09895544-c0c5-47ce-9e09-c80cc60174bc"
+   }
+  },
+  {
+   "id": "arxiv:2608.04510",
+   "key": "arxiv:2608.04510",
+   "arxiv": "2608.04510",
+   "doi": null,
+   "slug": "guard-grounding-uncertainty-and-ablation-based-risk",
+   "title": "GUARD: Grounding Uncertainty and Ablation-Based Risk Detection for Diffusion-Based VLAs",
+   "abstract": "Diffusion-based vision-language-action (VLA) policies can generate plausible actions even when their predictions are weakly grounded in the visual and language evidence defining the task. We introduce GUARD, a test-time failure detection method that measures this grounding without modifying the pretrained policy. GUARD estimates the influence of token-indexed entries in the final vision-language model key-value (KV) cache, constructs counterfactual caches by ablating salient KV entries, and compares their denoising responses with the original conditioning. Based on the comparison, we derive GUARD diagnostic stream including sensitivity, attention entropy, modality bias, and grounding efficiency, which are calibrated online and processed by a lightweight temporal classifier. We evaluate GUARD under task-held-out splits across five policy-benchmark settings, using Pi0, SmolVLA, and Alpamayo-1.5 on LIBERO, SimplerEnv, MetaWorld, and PhysicalAI-AV. GUARD achieves the best ROC-AUC on four of five unseen-task settings and ranks second on the remaining setting, improving the average unseen-task ROC-AUC by 5.73 percentage points over the strongest competing runtime monitor while remaining within 0.19 points of the best seen-task average. These results show that directly probing action-head dependence on multimodal evidence provides a transferable failure signal across policies, tasks, embodiments, and domains.",
+   "authors": [
+    "Suhas Hegde",
+    "Jitendra Yasaswi Bharadwaj Katta"
+   ],
+   "publishedAt": "2026-08-05",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2608.04510",
+   "pdf": "https://arxiv.org/pdf/2608.04510",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "robots",
+    "significance": 3,
+    "reason": "Jev: Physical AI 93% · robots 84% · significance 2.8/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.93,
+      "domain": {
+       "choice": "robots",
+       "confidence": 0.81,
+       "probabilities": {
+        "embodied": 0.02,
+        "drones": 0,
+        "autonomy": 0.01,
+        "other": 0.01,
+        "manipulation": 0.12,
+        "robots": 0.84,
+        "locomotion": 0,
+        "simulation": 0
+       }
+      },
+      "significance": {
+       "score": 1.79,
+       "confidence": 0.82,
+       "probabilities": {
+        "0": 0,
+        "1": 0.21,
+        "2": 0.79,
+        "3": 0,
+        "4": 0
+       }
+      },
+      "hardware": 0.09,
+      "open": 0.05,
+      "survey": 0.02,
+      "foundation": 0.95
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "robots",
+      "domains": [
+       "robots"
+      ],
+      "domainConfidence": 0.81,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.79,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 93% · robots 84% · significance 2.8/5 · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:58:44.842Z",
+   "ai": {
+    "tldr": "GUARD detects when diffusion-based VLA policies produce ungrounded actions by ablating salient KV cache entries and comparing denoising responses.",
+    "whatChanged": "Before GUARD, failure detection for diffusion VLAs relied on confidence scores or out-of-distribution detectors that ignored grounding in multimodal evidence. GUARD enables directly probing action-head dependence on visual and language inputs via counterfactual cache ablations, providing a transferable failure signal across policies, tasks, and embodiments.",
+    "soWhat": "Imagine a robot chef following a recipe. GUARD checks if the robot is really looking at the right ingredients and listening to the instructions before it moves, and flags when it might be just guessing based on habit.",
+    "industry": "This paper contributes a runtime monitor that can be added to any diffusion VLA policy without retraining. It improves safety in robot deployments by detecting when actions are poorly grounded, and developers of autonomous systems (e.g., warehouse robots, home assistants) can use GUARD to trigger fallback behaviors.",
+    "keywords": [
+     "test-time detection",
+     "failure detection",
+     "diffusion VLA",
+     "grounding",
+     "KV cache ablation",
+     "runtime monitor"
+    ],
+    "graphicPrompt": "A robotic arm reaching for a block on a table, with a spotlight illuminating the block and a shadowy ghost arm showing a misaligned path. A faint grid overlay on the robot's camera view, with some grid cells highlighted to indicate attention.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:58:54.560Z",
+    "graphic": "/graphics/guard-grounding-uncertainty-and-ablation-based-risk.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "038a0905-c442-493a-af14-24e0cadc0aa7"
+   }
+  },
+  {
+   "id": "arxiv:2511.00088",
+   "key": "arxiv:2511.00088",
+   "arxiv": "2511.00088",
+   "doi": null,
+   "slug": "alpamayo-r1-bridging-reasoning-and-action-prediction-for",
+   "title": "Alpamayo-R1: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail",
+   "abstract": "End-to-end architectures trained via imitation learning have advanced autonomous driving by scaling model size and data, yet performance remains brittle in safety-critical long-tail scenarios where supervision is sparse and causal understanding is limited. To address this, we introduce Alpamayo-R1 (AR1), a vision-language-action model (VLA) that integrates Chain of Causation reasoning with trajectory planning to enhance decision-making in complex driving scenarios. Our approach features three key innovations: (1) the Chain of Causation (CoC) dataset, built through a hybrid auto-labeling and human-in-the-loop pipeline producing decision-grounded, causally linked reasoning traces aligned with driving behaviors; (2) a modular VLA architecture combining Cosmos-Reason, a Vision-Language Model pre-trained for Physical AI applications, with a diffusion-based trajectory decoder that generates dynamically feasible plans in real time; (3) a multi-stage training strategy using supervised fine-tuning to elicit reasoning and reinforcement learning (RL) to optimize reasoning quality via large reasoning model feedback and enforce reasoning-action consistency. Evaluation shows AR1 achieves up to a 12% improvement in planning accuracy on challenging cases compared to a trajectory-only baseline, with a 35% reduction in off-road rate and 25% reduction in close encounter rate in closed-loop simulation. RL post-training improves reasoning quality by 45% as measured by a large reasoning model critic and reasoning-action consistency by 37%. Model scaling from 0.5B to 7B parameters shows consistent improvements. On-vehicle road tests confirm real-time performance (99 ms latency) and successful urban deployment. By bridging interpretable reasoning with precise control, AR1 demonstrates a practical path towards Level 4 autonomous driving. We plan to release AR1 models and a subset of the CoC in a future update.",
+   "authors": [
+    "NVIDIA",
+    "Yan Wang",
+    "Wenjie Luo",
+    "Junjie Bai",
+    "Yulong Cao",
+    "Tong Che",
+    "Ke Chen",
+    "Yuxiao Chen"
+   ],
+   "publishedAt": "2025-10-30",
+   "year": "2025",
+   "url": "https://huggingface.co/papers/2511.00088",
+   "pdf": "https://arxiv.org/pdf/2511.00088",
+   "source": "huggingface",
+   "sources": [
+    "huggingface",
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 4,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 4,
+    "reason": "Jev: Physical AI 98% · autonomy 100% · significance 3.5/5 · real hardware · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.98,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "manipulation": 0,
+        "other": 0,
+        "locomotion": 0,
+        "autonomy": 1,
+        "robots": 0,
+        "drones": 0,
+        "simulation": 0,
+        "embodied": 0
+       }
+      },
+      "significance": {
+       "score": 2.53,
+       "confidence": 0.61,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.44,
+        "3": 0.55,
+        "4": 0
+       }
+      },
+      "hardware": 0.93,
+      "open": 0.38,
+      "survey": 0.01,
+      "foundation": 0.97
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 4,
+      "significanceScore": 2.53,
+      "hardware": true,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 98% · autonomy 100% · significance 3.5/5 · real hardware · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:58:44.840Z",
+   "ai": {
+    "tldr": "Alpamayo-R1 integrates chain-of-causation reasoning with trajectory planning to improve autonomous driving in long-tail scenarios.",
+    "whatChanged": "Previous end-to-end imitation learning for autonomous driving struggled with sparse supervision and causal understanding in safety-critical long-tail situations. Alpamayo-R1 introduces a Chain of Causation dataset and a multi-stage training process combining supervised fine-tuning and reinforcement learning to enforce reasoning-action consistency. This achieves a 12% improvement in planning accuracy, a 35% reduction in off-road rate, and a 25% reduction in close encounter rate in closed-loop simulation.",
+    "soWhat": "Instead of just copying human driving examples, the model learns to reason about cause and effect—like understanding that a pedestrian stepping out means you must brake. This helps it handle rare, dangerous scenarios that throw typical systems off course.",
+    "industry": "The Chain of Causation dataset and modular vision-language-action architecture provide a practical template for Level 4 autonomous driving stacks, especially for handling edge cases. Automotive and robotics companies building ADAS or self-driving systems can adopt the CoC reasoning pipeline and multi-stage training to improve safety and interpretability in real-world deployments.",
+    "keywords": [
+     "chain-of-causation",
+     "vision-language-action",
+     "autonomous driving",
+     "reinforcement learning",
+     "trajectory planning",
+     "long-tail scenarios"
+    ],
+    "graphicPrompt": "A car windshield view shows a pedestrian suddenly stepping onto the road. Overlaid arrows trace a cause-effect chain: pedestrian icon → brake pedal icon → stop sign icon. A smooth curved trajectory line arcs from the car to a safe halt on the road. No text, no faces.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:58:56.137Z",
+    "graphic": "/graphics/alpamayo-r1-bridging-reasoning-and-action-prediction-for.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "3c0a165e-2348-4c3a-80f4-8af6736646a2"
+   }
+  },
+  {
+   "id": "arxiv:2605.29114",
+   "key": "arxiv:2605.29114",
+   "arxiv": "2605.29114",
+   "doi": null,
+   "slug": "reasonbreak-probing-vulnerabilities-in-reasoning-enabled",
+   "title": "ReasonBreak: Probing Vulnerabilities in Reasoning-Enabled Vision-Language-Action Models for Autonomous Driving",
+   "abstract": "Vision-Language-Action (VLA) models with integrated reasoning have been proposed for end-to-end autonomous driving, assuming a tight coupling between reasoning and trajectory generation. However, the robustness of such systems under realistic input perturbations remains largely unexplored. We show that these models are highly vulnerable to realistic input perturbations, achieving up to 89% attack success rate (ASR) on reasoning and up to 72% on trajectory manipulation in closed-loop simulation, leading to increased collision rates and degraded safety metrics. Using NVIDIA's recent Alpamayo models as representative industry-developed VLAs, we conduct the first systematic black-box study of reasoning-enabled VLA models under realistic textual input corruptions, evaluating their impact on reasoning and driving behavior. We introduce a reasoning-aware evaluation framework capturing both semantic and structural aspects of reasoning, along with safety-centric measures. We also introduce a benchmark for evaluating attacks and defenses on reasoning-trajectory interactions in autonomous driving. Our results highlight the need for rigorous evaluation and improved defenses to ensure the safety of reasoning-enabled VLA systems in autonomous driving.",
+   "authors": [
+    "Mohammadreza Teymoorianfard",
+    "Jean-Philippe Monteuuis",
+    "Jonathan Petit",
+    "Amir Houmansadr"
+   ],
+   "publishedAt": "2026-05-27",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2605.29114",
+   "pdf": "https://arxiv.org/pdf/2605.29114",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.8/5 · open artifacts · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.97,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "other": 0,
+        "manipulation": 0,
+        "simulation": 0,
+        "drones": 0,
+        "locomotion": 0,
+        "embodied": 0,
+        "autonomy": 1,
+        "robots": 0
+       }
+      },
+      "significance": {
+       "score": 1.83,
+       "confidence": 0.84,
+       "probabilities": {
+        "0": 0,
+        "1": 0.18,
+        "2": 0.81,
+        "3": 0.01,
+        "4": 0
+       }
+      },
+      "hardware": 0.04,
+      "open": 0.52,
+      "survey": 0.17,
+      "foundation": 0.87
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.83,
+      "hardware": false,
+      "open": true,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.8/5 · open artifacts · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:58:44.842Z",
+   "ai": {
+    "tldr": "Paper shows reasoning-enabled VLA models for autonomous driving are highly vulnerable to realistic input perturbations, achieving up to 89% ASR on reasoning and 72% on trajectory.",
+    "whatChanged": "Prior work assumed that reasoning in VLA models enhances robustness in autonomous driving. This paper demonstrates that these models are highly vulnerable to realistic input perturbations, achieving up to 89% attack success on reasoning and 72% on trajectory manipulation. It introduces a reasoning-aware evaluation framework and a benchmark for attacks and defenses.",
+    "soWhat": "Imagine a self-driving car that reasons about a stop sign but gets confused because the sign has a tiny smudge. This paper shows that even tiny, realistic changes to the words a car 'reads' can make it reason incorrectly and drive dangerously.",
+    "industry": "This paper provides a benchmark and evaluation framework for testing reasoning-enabled VLA models against realistic textual corruptions. Autonomous driving companies like NVIDIA can use these findings to improve model robustness and safety. It highlights the need for rigorous evaluation in safety-critical deployments.",
+    "keywords": [
+     "vision-language-action models",
+     "autonomous driving",
+     "adversarial attacks",
+     "reasoning robustness",
+     "input perturbations",
+     "safety evaluation"
+    ],
+    "graphicPrompt": "A split visual: left side shows a clear stop sign and a car's smooth trajectory path; right side shows the same stop sign with a crack and the car's trajectory abruptly veering off the road. A gear representing reasoning shows a broken tooth on the right side.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:59:02.282Z",
+    "graphic": "/graphics/reasonbreak-probing-vulnerabilities-in-reasoning-enabled.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "5e9a9796-2df9-459c-8e93-73e93c9d527f"
+   }
+  },
+  {
+   "id": "arxiv:2608.14024",
+   "key": "arxiv:2608.14024",
+   "arxiv": "2608.14024",
+   "doi": null,
+   "slug": "ssp-an-event-matched-syn2sim2phy-cross-domain-evaluation",
+   "title": "SSP: An Event-Matched Syn2Sim2Phy Cross-Domain Evaluation Framework for Autonomous Driving VLA Models",
+   "abstract": "Vision-language-action (VLA) models for autonomous driving jointly produce scene interpretation, language-based reasoning, and driving trajectories. Existing evaluations often use independently selected synthetic, simulated, and physical data, so measured performance gaps can be confounded by changes in scenario content rather than genuine domain sensitivity. We propose SSP (Synthetic-Simulation-Physical), an event-matched Syn2Sim2Phy evaluation framework that anchors cross-domain comparison to the same safety-critical interaction. Starting from a synthetic long-tail video, SSP builds a validated event specification that preserves road topology, participant roles, relative motion, conflict evolution, passing order, response constraints, and event phases. Platform-specific realizations are then constructed in CARLA and on a closed proving ground and are evaluated only after transfer audits confirm preservation of mandatory event properties. SSP maps heterogeneous outputs from OpenEMMA, LLaViDA, and Alpamayo-R1 into common semantic slots and a 1 s trajectory window to assess output validity, semantic accuracy, critical-interaction recognition, trajectory quality, and risk response. Across Cut-in and vulnerable-road-user crossing cases, the macro-averaged Integrated VLA Capability Scores are 0.259, 0.291, and 0.325 in the Synthetic, Simulation, and Physical domains, respectively, while the best domain varies by scenario. Alpamayo-R1, OpenEMMA, and LLaViDA obtain scores of 0.405, 0.338, and 0.131. SSP provides a reproducible scene-transfer chain and an evidence-qualified evaluation of VLA behavior without assuming that the Physical domain is universally superior.",
+   "authors": [
+    "Haojie Feng",
+    "Peizhi Zhang",
+    "Xinrui Zhang",
+    "Zhuoren Li",
+    "Junpeng Huang",
+    "Xiurong Wang",
+    "Dongxiao Yin",
+    "Yuxiang Zhang"
+   ],
+   "publishedAt": "2026-08-14",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2608.14024",
+   "pdf": "https://arxiv.org/pdf/2608.14024",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 96% · autonomy 99% · significance 2.6/5 · real hardware",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.96,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 0.99,
+       "probabilities": {
+        "embodied": 0,
+        "drones": 0,
+        "autonomy": 0.99,
+        "other": 0,
+        "manipulation": 0,
+        "robots": 0,
+        "locomotion": 0,
+        "simulation": 0.01
+       }
+      },
+      "significance": {
+       "score": 1.61,
+       "confidence": 0.67,
+       "probabilities": {
+        "0": 0,
+        "1": 0.39,
+        "2": 0.61,
+        "3": 0,
+        "4": 0
+       }
+      },
+      "hardware": 0.87,
+      "open": 0.07,
+      "survey": 0.12,
+      "foundation": 0.46
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 0.99,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.61,
+      "hardware": true,
+      "open": false,
+      "survey": false,
+      "foundation": false,
+      "reason": "Jev: Physical AI 96% · autonomy 99% · significance 2.6/5 · real hardware"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:59:03.874Z",
+   "ai": {
+    "tldr": "SSP presents an event-matched Syn2Sim2Phy evaluation framework for VLA models, revealing domain-dependent performance gaps in autonomous driving.",
+    "whatChanged": "Prior evaluations used independently selected synthetic, simulated, and physical data, confounding domain sensitivity with scenario content differences. SSP enables controlled cross-domain comparison by anchoring to the same safety-critical event with validated event specifications and transfer audits, and maps heterogeneous model outputs into common semantic slots and trajectory windows.",
+    "soWhat": "Imagine testing a driver on the same tricky intersection in a video game, a driving simulator, and a real test track. Before SSP, you couldn't be sure if differences came from the test or the driver; now you can fairly compare across all three.",
+    "industry": "SSP provides a reproducible scene-transfer chain and evidence-qualified VLA behavior assessment. Autonomous driving teams can use it to benchmark model domain robustness before deployment, and it offers a standardized methodology for creating domain-matched scenarios from synthetic events.",
+    "keywords": [
+     "autonomous driving",
+     "vision-language-action",
+     "domain adaptation",
+     "synthetic-to-real",
+     "evaluation framework",
+     "safety-critical"
+    ],
+    "graphicPrompt": "Three panels side by side: a synthetic city street with a car and pedestrian, a CARLA simulation of the same scene, a physical proving ground with the same car and pedestrian. Arrows connect the three scenes through a central 'Event Specification' box showing road topology and motion paths.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:59:13.648Z",
+    "graphic": "/graphics/ssp-an-event-matched-syn2sim2phy-cross-domain-evaluation.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "2b961961-c9eb-4446-93dc-fe2c5485b9e6"
+   }
+  },
+  {
+   "id": "arxiv:2606.14238",
+   "key": "arxiv:2606.14238",
+   "arxiv": "2606.14238",
+   "doi": null,
+   "slug": "when-and-how-severely-scenario-specific-safety-envelopes",
+   "title": "When and How Severely: Scenario-Specific Safety Envelopes for Driving VLAs",
+   "abstract": "Safety certification of Vision-Language-Action (VLA) driving planners under ISO 21448 (SOTIF) rests on an Operational Design Domain (ODD) specification that answers two complementary questions: when does the planner start to fail, and how severely does it fail once it does? We evaluate Alpamayo R1, a 10B-parameter open-weight driving VLA, on 15,968 (clip, attack) pairs. We find a conservative-aggregate gap: an aggregate safe threshold of $σ\\leq 50$ under a 15% average displacement error (ADE) budget masks well-sampled scenarios that tolerate the top of the tested grid ($σ= 70$). A Gaussian Mixture Model (GMM) on the changed-explanation subset identifies six discrete severity bands (BIC-optimal $k{=}6$), so two perturbation conditions with the same mean error can differ materially in their share of high-severity (C4/C5) failures. Joining the two analyses on the same corpus surfaces a finding neither yields in isolation: the scenarios with the loosest noise thresholds are not those with the lowest high-severity rate: STOP_SIGNAL concentrates roughly $4\\times$ the C4/C5 share of LANE_KEEPING despite tolerating a larger $σ$. A deployable SOTIF ODD specification for driving VLAs therefore requires a two-dimensional safety envelope, not a single aggregate value per hazard.",
+   "authors": [
+    "Abhinaw Priyadershi",
+    "Jelena Frtunikj"
+   ],
+   "publishedAt": "2026-06-12",
+   "year": "2026",
+   "url": "https://arxiv.org/abs/2606.14238",
+   "pdf": "https://arxiv.org/pdf/2606.14238",
+   "source": "arxiv",
+   "sources": [
+    "arxiv"
+   ],
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.6/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.97,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "robots": 0,
+        "manipulation": 0,
+        "autonomy": 1,
+        "locomotion": 0,
+        "other": 0,
+        "embodied": 0,
+        "simulation": 0,
+        "drones": 0
+       }
+      },
+      "significance": {
+       "score": 1.61,
+       "confidence": 0.66,
+       "probabilities": {
+        "0": 0,
+        "1": 0.4,
+        "2": 0.59,
+        "3": 0.01,
+        "4": 0
+       }
+      },
+      "hardware": 0.06,
+      "open": 0.07,
+      "survey": 0.38,
+      "foundation": 0.91
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.61,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.6/5 · foundation-model based"
+     }
+    }
+   },
+   "discoveredAt": "2026-09-19T20:59:04.034Z",
+   "ai": {
+    "tldr": "Evaluates a driving VLA across 16k scenarios, showing a single safety threshold masks scenario-specific failures, requiring two-dimensional safety envelopes.",
+    "whatChanged": "Prior work assumed aggregate safety thresholds (e.g., ADE < 15%) suffice for ODD specification. This paper reveals a conservative-aggregate gap where different scenarios tolerate varying noise levels and produce different severity profiles. A new two-dimensional safety envelope—combining when failures start and how severely they occur—is proposed for VLA planners under SOTIF.",
+    "soWhat": "Imagine checking the average test score for a class hides that some students really struggle with specific topics. This paper shows self-driving systems need separate safety limits for different driving situations (like stop signs vs. lane keeping) because a single average rule can miss dangerous failures.",
+    "industry": "The paper provides a methodology for creating scenario-specific safety envelopes for VLA planners, directly supporting SOTIF certification. Autonomous driving developers and safety engineers can use this approach to specify ODDs and validate systems against real-world hazard variations. It also informs tooling for identifying high-risk scenarios that aggregate metrics overlook.",
+    "keywords": [
+     "safety envelope",
+     "SOTIF",
+     "VLA driving",
+     "scenario-specific",
+     "severity bands",
+     "ODD specification"
+    ],
+    "graphicPrompt": "A two-dimensional grid with two road types: a curvy road and a straight road. From each, arrows extend outward to colored patches (green to red). The curvy road's arrow is longer (reaching a red patch) while the straight road's arrow is shorter (ending in yellow), illustrating that higher noise tolerance can coexist with higher severity.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T20:59:18.872Z",
+    "graphic": "/graphics/when-and-how-severely-scenario-specific-safety-envelopes.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "0814d796-c78b-4fd0-ab34-f21d12f36c19"
+   }
+  },
+  {
+   "id": "manual:alpamayo-2-super-a-34b-reasoning-vision-language-action",
+   "key": "manual:alpamayo-2-super-a-34b-reasoning-vision-language-action",
+   "arxiv": null,
+   "doi": null,
+   "slug": "alpamayo-2-super-a-34b-reasoning-vision-language-action",
+   "title": "Alpamayo 2 Super: A 34B Reasoning Vision-Language-Action Foundation Model for Autonomous Vehicles",
+   "abstract": "Alpamayo 2 Super is a 34B-parameter foundation model for autonomous-vehicle development that combines a 32B vision-language backbone (built on Cosmos 3 Super Reasoner) with a 2.3B diffusion-based action expert. From full-surround multi-camera video (six cameras, four context frames) plus egomotion history it outputs planned trajectories (64 waypoints over 6.4 seconds as ego-frame positions and rotations), Chain-of-Causation reasoning traces explaining its decisions, meta-actions, 2D grounding, visually grounded question answers and structured auto-labels, so developers can inspect and validate the model's decision-making. NVIDIA reports it ranks first on the LingoQA driving-reasoning benchmark among roughly 40 evaluated models, ahead of Qwen2.5-VL 72B, Gemini 2.5 Pro and GPT-4o, and describes it as three times the scale of the earlier 10B Alpamayo-R1. Weights are released under the permissive OpenMDW-1.1 licence and code under Apache 2.0 as part of the Alpamayo Open Platform; the Alpamayo family had passed 500,000 Hugging Face downloads at release. Released 4 August 2026 as a model card and blog post rather than a peer-reviewed paper; the preceding paper is Alpamayo-R1 (arXiv 2511.00088).",
+   "authors": [
+    "NVIDIA Alpamayo team"
+   ],
+   "publishedAt": "2026-08-04",
+   "year": "2026",
+   "url": "https://huggingface.co/nvidia/Alpamayo2-Super",
+   "pdf": "https://blogs.nvidia.com/blog/alpamayo-2-super-open-model-now-available/",
+   "source": "manual",
+   "sources": [
+    "manual"
+   ],
+   "venue": "Hugging Face model card · NVIDIA blog",
+   "upvotes": 0,
+   "citations": 0,
+   "org": "NVIDIA",
+   "queries": [
+    "manual"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 4,
+    "reason": "Jev: Physical AI 91% · autonomy 100% · significance 3.7/5 · open artifacts · foundation-model based",
+    "screener": "jev"
+   },
+   "discoveredAt": "2026-09-19T21:00:42.995Z",
+   "ai": {
+    "tldr": "A 34B vision-language-action model for autonomous vehicles that outputs trajectories and reasoning traces, ranking first on LingoQA.",
+    "whatChanged": "Before this, autonomous driving models like Alpamayo-R1 (10B) were smaller and lacked integrated Chain-of-Causation reasoning. This 34B model combines a vision-language backbone with a diffusion-based action expert, enabling multi-modal outputs (trajectories, reasoning, grounding) and achieving state-of-the-art on the LingoQA benchmark.",
+    "soWhat": "Imagine a self-driving car that not only knows how to steer but also shows its work, like a student explaining each step of a math problem. This lets engineers check the car's thinking and trust its decisions more easily.",
+    "industry": "This paper provides an open-source foundation model (Alpamayo 2 Super) that generates interpretable reasoning alongside driving actions, which is critical for safety validation in autonomous vehicle development. Researchers and engineers can use it for simulation, auto-labeling, and real-world testing, reducing the black-box problem in AV systems.",
+    "keywords": [
+     "vision-language-action model",
+     "autonomous driving",
+     "chain-of-causation",
+     "reasoning",
+     "trajectory prediction",
+     "diffusion model"
+    ],
+    "graphicPrompt": "A car surrounded by six cameras, each emitting a video feed. From the feeds, a series of connected thought bubbles flow to a steering wheel, and then a curved path appears on the road ahead. No text or people's faces.",
+    "model": "deepseek-ai/DeepSeek-V4-Flash",
+    "generatedAt": "2026-09-19T21:00:34.500Z",
+    "graphic": "/graphics/alpamayo-2-super-a-34b-reasoning-vision-language-action.png",
+    "graphicModel": "seedream-4-0-250828",
+    "graphicRequestId": "6aebf897-f147-4e13-bb65-548dacdd2872"
+   }
   }
  ],
  "rejected": {
@@ -41907,7 +42834,415 @@
    "significance": 2,
    "reason": "Benchmark for drone-based geo-localization; primarily computer vision, not embodied AI.",
    "at": "2026-09-18"
+  },
+  "arxiv:2606.31160": {
+   "title": "Reasoning-aware Speculative Decoding for Efficient Vision-Language-Action Models in Autonomous Driving",
+   "venue": "arXiv",
+   "relevant": true,
+   "domain": "autonomy",
+   "significance": 2,
+   "reason": "Jev: Physical AI 96% · autonomy 100% · significance 2.3/5 · foundation-model based",
+   "screener": "jev",
+   "jev": {
+    "raw": {
+     "relevant": 0.96,
+     "domain": {
+      "choice": "autonomy",
+      "confidence": 1,
+      "probabilities": {
+       "other": 0,
+       "locomotion": 0,
+       "drones": 0,
+       "manipulation": 0,
+       "simulation": 0,
+       "robots": 0,
+       "embodied": 0,
+       "autonomy": 1
+      }
+     },
+     "significance": {
+      "score": 1.25,
+      "confidence": 0.79,
+      "probabilities": {
+       "0": 0,
+       "1": 0.75,
+       "2": 0.25,
+       "3": 0,
+       "4": 0
+      }
+     },
+     "hardware": 0.1,
+     "open": 0.06,
+     "survey": 0.02,
+     "foundation": 0.95
+    },
+    "derived": {
+     "relevant": true,
+     "domain": "autonomy",
+     "domains": [
+      "autonomy"
+     ],
+     "domainConfidence": 1,
+     "uncertainDomain": false,
+     "significance": 2,
+     "significanceScore": 1.25,
+     "hardware": false,
+     "open": false,
+     "survey": false,
+     "foundation": true,
+     "reason": "Jev: Physical AI 96% · autonomy 100% · significance 2.3/5 · foundation-model based"
+    }
+   },
+   "at": "2026-09-19"
+  },
+  "arxiv:2605.11678": {
+   "title": "OOM-Free Alpamayo via CPU-GPU Memory Swapping for Vision-Language-Action Models",
+   "venue": "arXiv",
+   "relevant": true,
+   "domain": "autonomy",
+   "significance": 2,
+   "reason": "Jev: Physical AI 91% · autonomy 96% · significance 2.5/5 · foundation-model based",
+   "screener": "jev",
+   "jev": {
+    "raw": {
+     "relevant": 0.91,
+     "domain": {
+      "choice": "autonomy",
+      "confidence": 0.95,
+      "probabilities": {
+       "embodied": 0,
+       "autonomy": 0.96,
+       "other": 0.04,
+       "drones": 0,
+       "simulation": 0,
+       "locomotion": 0,
+       "manipulation": 0,
+       "robots": 0
+      }
+     },
+     "significance": {
+      "score": 1.47,
+      "confidence": 0.6,
+      "probabilities": {
+       "0": 0,
+       "1": 0.53,
+       "2": 0.46,
+       "3": 0.01,
+       "4": 0
+      }
+     },
+     "hardware": 0.31,
+     "open": 0.05,
+     "survey": 0.02,
+     "foundation": 0.95
+    },
+    "derived": {
+     "relevant": true,
+     "domain": "autonomy",
+     "domains": [
+      "autonomy"
+     ],
+     "domainConfidence": 0.95,
+     "uncertainDomain": false,
+     "significance": 2,
+     "significanceScore": 1.47,
+     "hardware": false,
+     "open": false,
+     "survey": false,
+     "foundation": true,
+     "reason": "Jev: Physical AI 91% · autonomy 96% · significance 2.5/5 · foundation-model based"
+    }
+   },
+   "at": "2026-09-19"
+  },
+  "arxiv:2605.08975": {
+   "title": "Latency Analysis and Optimization of Alpamayo 1 via Efficient Trajectory Generation",
+   "venue": "arXiv",
+   "relevant": true,
+   "domain": "autonomy",
+   "significance": 2,
+   "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.1/5 · foundation-model based",
+   "screener": "jev",
+   "jev": {
+    "raw": {
+     "relevant": 0.97,
+     "domain": {
+      "choice": "autonomy",
+      "confidence": 1,
+      "probabilities": {
+       "robots": 0,
+       "manipulation": 0,
+       "embodied": 0,
+       "locomotion": 0,
+       "other": 0,
+       "autonomy": 1,
+       "simulation": 0,
+       "drones": 0
+      }
+     },
+     "significance": {
+      "score": 1.09,
+      "confidence": 0.89,
+      "probabilities": {
+       "0": 0.02,
+       "1": 0.87,
+       "2": 0.11,
+       "3": 0,
+       "4": 0
+      }
+     },
+     "hardware": 0.13,
+     "open": 0.04,
+     "survey": 0.05,
+     "foundation": 0.52
+    },
+    "derived": {
+     "relevant": true,
+     "domain": "autonomy",
+     "domains": [
+      "autonomy"
+     ],
+     "domainConfidence": 1,
+     "uncertainDomain": false,
+     "significance": 2,
+     "significanceScore": 1.09,
+     "hardware": false,
+     "open": false,
+     "survey": false,
+     "foundation": true,
+     "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.1/5 · foundation-model based"
+    }
+   },
+   "at": "2026-09-19"
+  },
+  "arxiv:2608.17095": {
+   "title": "Inference-Time Attention Steering for Vision-Language-Action Driving Models",
+   "venue": "arXiv",
+   "relevant": true,
+   "domain": "autonomy",
+   "significance": 2,
+   "reason": "Jev: Physical AI 96% · autonomy 100% · significance 1.9/5 · foundation-model based",
+   "screener": "jev",
+   "jev": {
+    "raw": {
+     "relevant": 0.96,
+     "domain": {
+      "choice": "autonomy",
+      "confidence": 1,
+      "probabilities": {
+       "drones": 0,
+       "locomotion": 0,
+       "robots": 0,
+       "other": 0,
+       "autonomy": 1,
+       "manipulation": 0,
+       "simulation": 0,
+       "embodied": 0
+      }
+     },
+     "significance": {
+      "score": 0.94,
+      "confidence": 0.82,
+      "probabilities": {
+       "0": 0.13,
+       "1": 0.79,
+       "2": 0.08,
+       "3": 0,
+       "4": 0
+      }
+     },
+     "hardware": 0.04,
+     "open": 0.05,
+     "survey": 0.1,
+     "foundation": 0.97
+    },
+    "derived": {
+     "relevant": true,
+     "domain": "autonomy",
+     "domains": [
+      "autonomy"
+     ],
+     "domainConfidence": 1,
+     "uncertainDomain": false,
+     "significance": 2,
+     "significanceScore": 0.94,
+     "hardware": false,
+     "open": false,
+     "survey": false,
+     "foundation": true,
+     "reason": "Jev: Physical AI 96% · autonomy 100% · significance 1.9/5 · foundation-model based"
+    }
+   },
+   "at": "2026-09-19"
   }
  },
- "backlog": {}
+ "backlog": {
+  "arxiv:2605.17268": {
+   "arxiv": "2605.17268",
+   "title": "Is VLA Reasoning Faithful? Probing Safety of Chain-of-Causation in Autonomous Driving Models",
+   "abstract": "We present the first systematic study of faithfulness in Vision-Language-Action (VLA) driving models, analyzing 300 Alpamayo-R1-10B inferences across 100 diverse PhysicalAI-AV scenarios. Our main finding is that output natural-language rationales with trajectories may be significantly unfaithful: (i) overall reasoning fidelity is only 42.5%, with Chain-of-Causation matching scene reality less than half the time; (ii) 94 missed pedestrians in one-third of pedestrian-relevant scenes; (iii) 97.7% trajectory fragility under mild visual perturbations; and (iv) only 48.3% mean reasoning-action consistency, with 53.3% of inferences exhibiting low consistency, including 37.9% of stop-claimed cases where the model continues instead. We formalize faithfulness information-theoretically, define entity and action fidelity with verification criteria, and outline a four-component safety architecture aligned with these results.",
+   "authors": [
+    "Nicanor Mayumu",
+    "Xiaoheng Deng",
+    "Patrick Mukala"
+   ],
+   "publishedAt": "2026-05-17",
+   "url": "https://arxiv.org/abs/2605.17268",
+   "pdf": "https://arxiv.org/pdf/2605.17268",
+   "source": "arxiv",
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "doi": null,
+   "key": "arxiv:2605.17268",
+   "sources": [
+    "arxiv"
+   ],
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.7/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.97,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "drones": 0,
+        "embodied": 0,
+        "other": 0,
+        "simulation": 0,
+        "autonomy": 1,
+        "robots": 0,
+        "locomotion": 0,
+        "manipulation": 0
+       }
+      },
+      "significance": {
+       "score": 1.7,
+       "confidence": 0.73,
+       "probabilities": {
+        "0": 0,
+        "1": 0.31,
+        "2": 0.68,
+        "3": 0.01,
+        "4": 0
+       }
+      },
+      "hardware": 0.05,
+      "open": 0.07,
+      "survey": 0.37,
+      "foundation": 0.95
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.7,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.7/5 · foundation-model based"
+     }
+    }
+   },
+   "at": "2026-09-19"
+  },
+  "arxiv:2605.21446": {
+   "arxiv": "2605.21446",
+   "title": "Lost in Fog: Sensor Perturbations Expose Reasoning Fragility in Driving VLAs",
+   "abstract": "Interpretable autonomous driving planners depend not only on generating explanations, but also on those explanations remaining reliable under real-world sensor degradation. In this paper we present a controlled perturbation study of Vision-Language-Action (VLA) robustness in autonomous driving, evaluating Alpamayo R1 (10B parameters) across 1,996 scenarios under eight sensor perturbations (Gaussian noise at four intensities, two lighting extremes, and two fog levels; ${\\sim}18{,}000$ inference trials). We find that reasoning consistency is a high-fidelity indicator of trajectory reliability: when Chain-of-Causation (CoC) explanations change after perturbation, trajectory deviation spikes $5.3{\\times}$ (21.8m vs 4.1m), with $r\\!=\\!0.99$ across attack types and $r_{pb}\\!=\\!0.53$ per-sample (Cohen's $d\\!=\\!1.12$). A controlled ablation provides evidence that enabling CoC generation is associated with improved trajectory accuracy (11.8% on average across conditions; $p &lt; 0.0001$) under matched inference settings. Over the tested noise range ($σ\\in \\{10, 30, 50, 70\\}$), degradation is approximately linear ($R^2\\!=\\!0.957$), while standard input preprocessing defenses provide only marginal relief. Together, these results establish CoC consistency as a quantitative proxy for planning safety and motivate reasoning-based runtime monitoring for safer VLA deployment.",
+   "authors": [
+    "Abhinaw Priyadershi",
+    "Jelena Frtunikj"
+   ],
+   "publishedAt": "2026-05-20",
+   "url": "https://arxiv.org/abs/2605.21446",
+   "pdf": "https://arxiv.org/pdf/2605.21446",
+   "source": "arxiv",
+   "venue": "arXiv",
+   "upvotes": 0,
+   "citations": 0,
+   "org": null,
+   "doi": null,
+   "key": "arxiv:2605.21446",
+   "sources": [
+    "arxiv"
+   ],
+   "queries": [
+    "Alpamayo"
+   ],
+   "screen": {
+    "relevant": true,
+    "domain": "autonomy",
+    "significance": 3,
+    "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.6/5 · foundation-model based",
+    "screener": "jev",
+    "jev": {
+     "raw": {
+      "relevant": 0.97,
+      "domain": {
+       "choice": "autonomy",
+       "confidence": 1,
+       "probabilities": {
+        "locomotion": 0,
+        "embodied": 0,
+        "drones": 0,
+        "other": 0,
+        "autonomy": 1,
+        "simulation": 0,
+        "manipulation": 0,
+        "robots": 0
+       }
+      },
+      "significance": {
+       "score": 1.63,
+       "confidence": 0.69,
+       "probabilities": {
+        "0": 0,
+        "1": 0.37,
+        "2": 0.63,
+        "3": 0,
+        "4": 0
+       }
+      },
+      "hardware": 0.07,
+      "open": 0.05,
+      "survey": 0.52,
+      "foundation": 0.96
+     },
+     "derived": {
+      "relevant": true,
+      "domain": "autonomy",
+      "domains": [
+       "autonomy"
+      ],
+      "domainConfidence": 1,
+      "uncertainDomain": false,
+      "significance": 3,
+      "significanceScore": 1.63,
+      "hardware": false,
+      "open": false,
+      "survey": false,
+      "foundation": true,
+      "reason": "Jev: Physical AI 97% · autonomy 100% · significance 2.6/5 · foundation-model based"
+     }
+    }
+   },
+   "at": "2026-09-19"
+  }
+ }
 }

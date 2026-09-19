@@ -38631,6 +38631,59 @@
     "foundation": false,
     "reason": "Jev: Physical AI 96% · manipulation 100% · significance 2.0/5"
    }
+  },
+  "alpamayo-2-super-a-34b-reasoning-vision-language-action": {
+   "at": "2026-09-19T21:00:43.067Z",
+   "origin": "discovered",
+   "transport": "direct",
+   "raw": {
+    "relevant": 0.91,
+    "domain": {
+     "choice": "autonomy",
+     "confidence": 1,
+     "probabilities": {
+      "simulation": 0,
+      "other": 0,
+      "autonomy": 1,
+      "embodied": 0,
+      "locomotion": 0,
+      "drones": 0,
+      "robots": 0,
+      "manipulation": 0
+     }
+    },
+    "significance": {
+     "score": 2.66,
+     "confidence": 0.67,
+     "probabilities": {
+      "0": 0.01,
+      "1": 0.05,
+      "2": 0.24,
+      "3": 0.68,
+      "4": 0.02
+     }
+    },
+    "hardware": 0.08,
+    "open": 0.92,
+    "survey": 0.02,
+    "foundation": 0.98
+   },
+   "derived": {
+    "relevant": true,
+    "domain": "autonomy",
+    "domains": [
+     "autonomy"
+    ],
+    "domainConfidence": 1,
+    "uncertainDomain": false,
+    "significance": 4,
+    "significanceScore": 2.66,
+    "hardware": false,
+    "open": true,
+    "survey": false,
+    "foundation": true,
+    "reason": "Jev: Physical AI 91% · autonomy 100% · significance 3.7/5 · open artifacts · foundation-model based"
+   }
   }
  }
 }

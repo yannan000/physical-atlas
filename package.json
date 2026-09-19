@@ -8,7 +8,9 @@
     "start": "next start",
     "enrich": "node --no-warnings scripts/enrich.mjs",
     "discover": "node --no-warnings scripts/discover.mjs",
-    "classify": "node --no-warnings scripts/classify.mjs"
+    "classify": "node --no-warnings scripts/classify.mjs",
+    "add-paper": "node --no-warnings scripts/add-paper.mjs",
+    "nvidia": "node --no-warnings scripts/nvidia.mjs"
   },
   "dependencies": {
     "@typesafe-ai/sdk": "^0.6.0",
