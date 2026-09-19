@@ -2,7 +2,21 @@
   "name": "physical-atlas",
   "version": "0.1.0",
   "private": true,
-  "scripts": {"dev":"next dev","build":"next build","start":"next start"},
-  "dependencies": {"ai":"^7.0.105","next":"16.3.5","react":"19.2.3","react-dom":"19.2.3"},
-  "devDependencies": {"@types/node":"^24","@types/react":"^19","typescript":"^5"}
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "enrich": "node --no-warnings scripts/enrich.mjs",
+    "discover": "node --no-warnings scripts/discover.mjs"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
 }

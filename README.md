@@ -1,63 +1,96 @@
 # Physical Atlas
 
-A living index of Physical AI research across robots, drones, autonomous systems, manipulation, embodied AI, and simulation.
-
-## What changed in v1.1
-
-- Preserves the live Hugging Face Papers discovery feed and domain search.
-- Adds a curated map of leading research labs, Physical AI companies, and open-research infrastructure.
-- Includes representative research links and a first-party research or publication source for every entry.
-- Keeps organization signals from the live feed separate from curated identities, avoiding guessed affiliations.
-- Labels Prime Intellect as adjacent open training infrastructure, not as a Physical AI research lab. Its published technical evidence is currently focused on distributed AI training.
-- Adds the user-supplied Google Research projects index, filtered to its Physical AI-relevant project (PaLM-SayCan) rather than ingested wholesale.
-
-## What changed in v1.2
-
-- Every curated paper now carries two fields in `lib/curatedLabs.ts`: `summary` (what the paper itself does and shows) and `impact` (what that same paper contributed to industry).
-- `SUMMARY.md` is now a numbered per-paper document — Paper 01-41, each with title, lab, summary and contribution to industry — instead of one thematic synthesis. The earlier `deepseek-ai/DeepSeek-V4-Flash` synthesis is retained as an appendix.
-- The lab view renders the same summary-plus-industry pair under each paper, so the documents and the site cannot drift apart.
-- Paper-level accuracy fixes: the Isaac Lab and Isaac Sim titles now match the published papers, the 2026 Isaac Sim entry is flagged as an independent survey rather than an NVIDIA publication, and the memory (MEM) and RLT entries carry their 2026 publication dates.
-- Five curated links that are lab publication or project indexes — not single papers — stay labelled as source indexes and carry a scope description only.
-
-## How the curated map is selected
-
-This is an editorial shortlist, not a universal ranking. Inclusion uses five visible criteria:
-
-1. Sustained primary research output.
-2. Current research activity.
-3. Field-shaping systems, datasets, models, or real-world deployments.
-4. Coverage across Physical AI areas rather than brand size or funding.
-5. Accessible evidence from official lab/publication pages or canonical paper metadata.
-
-Company marketing and funding announcements are not treated as research evidence. Broad publication and project indexes, including NVIDIA Research publications and the Google Research projects index, are filtered to Physical AI work in robotics, simulation, embodied systems, autonomy, manipulation, and related learning methods rather than ingested wholesale. Organization types remain explicit: `Research lab`, `Physical AI company`, or `Open research infrastructure`.
-
-## Primary sources
-
-- Google DeepMind Robotics: https://deepmind.google/research/publications/48151/
-- Google Research: https://research.google/resources/our-projects/
-- Physical Intelligence: https://www.pi.website/research
-- NVIDIA Robotics Research: https://research.nvidia.com/publications
-- Toyota Research Institute: https://www.tri.global/publications
-- Stanford REAL: https://real.stanford.edu/
-- Berkeley RAIL: https://rail.eecs.berkeley.edu/publications.html
-- CMU Robotics Institute: https://publications.ri.cmu.edu/
-- MIT CSAIL: https://publications.csail.mit.edu/
-- ETH Zürich Robotic Systems Lab: https://rsl.ethz.ch/publications-sources.html
-- UPenn GRASP: https://www.grasp.upenn.edu/publications/
-- UZH Robotics and Perception Group: https://rpg.ifi.uzh.ch/publications.html
-- Skild AI: https://www.skild.ai/blogs/one-policy-all-scenarios
-- Figure AI: https://www.figure.ai/news/helix
-- 1X World Model Lab: https://www.1x.tech/discover/1x-world-model-lab
-- Waymo Research: https://waymo.com/research/
-- FieldAI Research Institute: https://www.fieldai.com/fairi
-- Hugging Face LeRobot: https://huggingface.co/lerobot/papers
-- Prime Intellect: https://www.primeintellect.ai/blog
-
-## Data and optional classification
-
-The live feed uses the public Hugging Face Papers API. `AI_GATEWAY_API_KEY` is optional and remains unset in production; without it, `/api/classify` intentionally returns a 503 disabled response. No secrets are committed.
+An illustrated, living index of Physical AI research — robots, drones and UAVs, autonomy, manipulation, embodied AI and simulation. Every paper carries a model-written brief (tl;dr, what changed, plain-English "so what", industry contribution, keywords) and a graphic generated from that brief. Inference runs on **GMI Cloud**.
 
 ```bash
 npm install
-npm run dev
+npm run dev          # http://localhost:3000
+npm run enrich       # briefs + graphics for the curated papers (fills gaps only)
+npm run discover     # scan preprints, journals and proceedings for new papers, screen, brief, illustrate, index
 ```
+
+Auth for the two scripts and `/api/summarize`: `GMI_API_KEY` in the environment or `.env.local`; failing that, the key the `gmi` CLI stores in `~/.config/gmi/.env` is used. Create one at console.gmicloud.ai → API Keys.
+
+## What is in v2
+
+- **Redesign (v1.3 palette).** The v1 palette and type are back on the v2 structure: cream paper `#f3f0e8`, ink `#171712`, blue `#2e54ff` for editorial labels and links, acid `#d7ff46` for anything a model wrote or drew, with Newsreader, Manrope and DM Mono. Generated graphics keep their navy ground and sit as 1 px ink-bordered tiles inside cream cards. Two voices, two marks: blue mono labels are the editor's; acid chips mark model output (briefs, tl;drs, graphics). A graphic-led card grid, a detail page per paper at `/papers/<slug>`, a page per lab at `/labs/<slug>`, fixed-height lab and industry cards, and a live feed with a "Summarise with model" button and four explicit states.
+- **Model briefs on every curated paper** (`data/enriched.json`) written by `deepseek-ai/DeepSeek-V4-Flash` through the GMI OpenAI-compatible endpoint. The editor's own summary and industry note remain on the page; the model never replaces them.
+- **One generated graphic per paper** (`public/graphics/<slug>.png`) rendered by `seedream-4-0-250828` through the GMI Studio request queue from the illustration brief the model wrote, in one house style, converted to PNG locally. Seedance is GMI's video model; Seedream is the image sibling used here.
+- **Discovery pipeline** (`scripts/discover.mjs`) that pulls candidates from Hugging Face Papers, arXiv, Semantic Scholar and OpenAlex — including robotics journals and proceedings — dedupes them against the atlas, has the model screen each one for relevance and significance, then briefs and illustrates the keepers into `data/discovered.json`. They appear under **Index** on the site with a stable `D` number and are labelled as automatically screened, not editorially reviewed. The Index has full-text search over titles, venues, authors, keywords and briefs, filters by domain, model significance, year and source type (preprint vs journal/proceedings), four sort orders, and loads 48 cards at a time.
+
+## Pipeline
+
+```
+lib/curatedLabs.ts ──► lib/papers.ts ──► scripts/enrich.mjs ──► data/enriched.json + public/graphics/*.png
+                                              │  (GMI LLM: brief; GMI Studio: graphic)
+sources: hf · arxiv · s2 · openalex ──► scripts/discover.mjs ──► data/discovered.json + public/graphics/*.png
+                                              │  (dedupe → screen → brief → graphic)
+lib/data.ts assembles both ──► app/page.tsx (views) · app/papers/[slug]/page.tsx (detail)
+```
+
+Shared plumbing lives in `scripts/gmi.mjs`: key loading, JSON chat completions with retry, the brief schema and prompt, the house illustration style, request-queue polling, PNG conversion.
+
+### `npm run enrich`
+
+| Flag | Effect |
+|---|---|
+| `--summaries` / `--graphics` | run only one pass |
+| `--force` | regenerate everything, not just gaps |
+| `--limit N` | first N curated papers |
+| `--dry-run` | print the plan, spend nothing |
+
+### `npm run discover`
+
+| Flag | Default | Effect |
+|---|---|---|
+| `--source hf,arxiv,s2,openalex` | all | which sources to query |
+| `--query "…"` (repeatable) | 19 built-in queries covering physical AI, manipulation, humanoids, legged, drones/UAVs, ground autonomy | what to search for |
+| `--venue "…"` (repeatable) | Science Robotics, T-RO, RA-L, IJRR, CoRL, RSS, ICRA, IROS, Nature MI, Autonomous Robots, JFR, Nature, Science | venue filter for Semantic Scholar and OpenAlex |
+| `--any-venue` | off | drop the venue filter |
+| `--days N` | 90 | recency window |
+| `--per-source N` | 40 | candidates taken per source per query |
+| `--min-score N` | 3 | minimum model significance (1–5) to keep |
+| `--max N` | 12 | new papers indexed per run (cost cap) |
+| `--no-balance` | off | pure score order; by default keepers are picked round-robin across domains (robots, drones, autonomy, manipulation, embodied, simulation) so one hot topic cannot crowd out the rest |
+| `--backlog-only` | off | skip fetching and screening; index straight from the backlog (used to push all 662 screened papers) |
+| `--concurrency N` | 6 | parallel briefs and graphics |
+| `--no-graphics` | off | skip image generation |
+| `--dry-run` | off | fetch and dedupe only, no model calls |
+
+`data/discovered.json` remembers three things between runs: `papers` (indexed), `backlog` (screened as relevant and significant but not yet indexed because of `--max`; the next run indexes from here first, without re-screening) and `rejected` (irrelevant or below `--min-score`; never re-screened). Semantic Scholar throttles unauthenticated clients; set `S2_API_KEY` or the script backs off and continues with the other sources.
+
+### Cost (list prices before the account discount)
+
+- Brief: ~1,300 tokens on DeepSeek-V4-Flash, fractions of a cent.
+- Graphic: $0.05 list per Seedream 4.0 image (billed ~$0.03 after discount). The 41 curated graphics cost about $1.25.
+- Screening: one call per 10 candidates.
+
+## How the curated map is selected
+
+An editorial shortlist, not a universal ranking. Inclusion uses five visible criteria: sustained primary research output, current activity, field-shaping systems/datasets/models/deployments, coverage across Physical AI areas rather than brand size, and accessible evidence from official lab pages or canonical paper metadata. Marketing and funding announcements are not evidence. Organization types stay explicit: `Research lab`, `Physical AI company`, `Open research infrastructure`. Five curated links are lab publication indexes rather than single papers; they stay on the lab cards as source links and are excluded from the paper count.
+
+## Files
+
+```
+app/page.tsx                 home (server) → components/Atlas.tsx (client views: Papers · Index · Labs · Industry · Live feed)
+app/papers/[slug]/page.tsx   per-paper page: graphic, brief, editor's notes or screening note, provenance
+app/api/papers/route.ts      Hugging Face Papers proxy (hourly revalidation)
+app/api/summarize/route.ts   on-demand brief for a live-feed paper via GMI
+lib/curatedLabs.ts           the editorial data (labs, papers, summaries, industry notes, contributions)
+lib/papers.ts                flat paper list + slugs + Enrichment type
+lib/data.ts                  server-side assembly of curated + discovered + enrichment
+lib/gmi.ts                   server-side GMI helpers for API routes
+scripts/gmi.mjs              shared script plumbing (LLM, Studio queue, PNG)
+scripts/enrich.mjs           curated papers → briefs + graphics
+scripts/discover.mjs         multi-source discovery → screen → brief → graphic → index
+data/enriched.json           briefs for curated papers
+data/discovered.json         indexed discoveries + remembered rejections
+public/graphics/*.png        generated graphics
+SUMMARY.md, PAPERS_ASSEMBLED.md   editor-written per-paper documents (v1.2)
+```
+
+## Primary sources
+
+Google DeepMind Robotics · Google Research · Physical Intelligence · NVIDIA Robotics Research · Toyota Research Institute · Stanford REAL · Berkeley RAIL · CMU Robotics Institute · MIT CSAIL · ETH Zürich RSL · UPenn GRASP · UZH RPG · Skild AI · Figure AI · 1X World Model Lab · Waymo Research · FieldAI · Hugging Face LeRobot · Prime Intellect — links are on each lab card and in `lib/curatedLabs.ts`.
+
+Paper rights remain with their authors and publishers. Summaries and graphics are model-generated; the curated set is reviewed editorially, the discovered index is not, and the linked paper is always the source of truth.
