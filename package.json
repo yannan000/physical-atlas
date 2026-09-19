@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "enrich": "node --no-warnings scripts/enrich.mjs",
-    "discover": "node --no-warnings scripts/discover.mjs"
+    "discover": "node --no-warnings scripts/discover.mjs",
+    "classify": "node --no-warnings scripts/classify.mjs"
   },
   "dependencies": {
+    "@typesafe-ai/sdk": "^0.6.0",
+    "ai": "^7.0.107",
     "next": "16.3.5",
     "react": "19.2.3",
     "react-dom": "19.2.3"

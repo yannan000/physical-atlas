@@ -47,6 +47,10 @@ export default async function PaperPage({params}:{params:Promise<{slug:string}>}
           <section className="block"><div className="hd"><h2>Contribution to industry</h2><span className="model sm">Model</span></div><p>{ai.industry}</p></section>
         </>:<section className="block first"><div className="hd"><h2>Model brief pending</h2></div><p className="muted">Run <code>npm run enrich</code> to generate this paper's brief and graphic through GMI Cloud.</p></section>}
 
+        {p.cls&&<section className="block editor"><div className="hd"><h2>Typed judgments</h2><span className="model sm">Jev</span></div>
+          <p><b title="Jev significance" aria-label={`${p.cls.derived.significance} of 5`}>{stars(p.cls.derived.significance)}</b> &nbsp;{p.cls.derived.domain}{p.cls.derived.domains.length>1?` (also ${p.cls.derived.domains.slice(1).join(', ')})`:''}{p.cls.derived.uncertainDomain?' · domain uncertain':''} · Physical AI {Math.round(p.cls.raw.relevant*100)}%</p>
+          <p>{[['Real hardware',p.cls.raw.hardware],['Open code / data',p.cls.raw.open],['Foundation-model based',p.cls.raw.foundation],['Survey / benchmark-only',p.cls.raw.survey]].map(([l,v])=>`${l} ${Math.round((v as number)*100)}%`).join(' · ')}</p>
+          <p>Probabilities from TypeSafe Jev over the title, venue and abstract; the filters on the atlas apply code-owned thresholds to these numbers.</p></section>}
         {d?<>
           <section className="block editor"><div className="hd"><h2>Why it is in the index</h2></div><p><b title="model significance score" aria-label={`${d.screen.significance} of 5`}>{stars(d.screen.significance)}</b> &nbsp;{d.screen.reason}</p><p>Found via {d.sources?.join(' + ')||d.source} for “{d.queries?.join('”, “')}”.{d.upvotes?` ${d.upvotes} Hugging Face upvotes.`:''}{d.citations?` ${d.citations} citations at discovery.`:''} Affiliation as reported · not editorially verified.</p></section>
           <section className="block editor"><div className="hd"><h2>Abstract</h2></div><p>{d.abstract}</p>{d.authors?.length?<p><b>Authors.</b> {d.authors.join(', ')}{d.authors.length>=8?' et al.':''}</p>:null}</section>

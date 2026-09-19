@@ -26,11 +26,18 @@
 //   npm run discover -- --min-score 4 --no-graphics
 //   npm run discover -- --no-balance                       # pure score order instead of round-robin across domains
 //   npm run discover -- --backlog-only --max 700            # index everything already screened into the backlog, no fetching
+//   npm run discover -- --no-jev                            # force the DeepSeek JSON screener even if TYPESAFE_API_KEY is set
 //   npm run discover -- --dry-run                           # fetch + dedupe only, no model calls
+//
+// Screening: with TYPESAFE_API_KEY set, each candidate is judged by TypeSafe Jev (scripts/jev.mjs):
+// relevance, domain, significance, real-hardware, open-artifacts, survey and foundation-model facets
+// come back as calibrated probabilities and the thresholds live in code. Without a key the older
+// DeepSeek JSON screener runs.
 //
 // Auth: GMI_API_KEY in the environment, .env.local, or ~/.config/gmi/.env.
 import path from 'node:path';
 import {root,LLM_MODEL,IMAGE_MODEL,chatJson,writeBrief,renderGraphic,pool,readJson,writeJson,sleep} from './gmi.mjs';
+import {jevAvailable,judgePaper,JEV_MODEL,explainAuthError,isFatal} from './jev.mjs';
 
 const DATA=path.join(root,'data','discovered.json');
 const argv=process.argv.slice(2);
@@ -47,6 +54,7 @@ const ANY_VENUE=flag('any-venue');
 const BALANCE=!flag('no-balance');          // spread keepers across domains instead of pure score order
 const BACKLOG_ONLY=flag('backlog-only');    // skip fetching and screening; index straight from the backlog
 const CONC=Number(opt('concurrency',6));     // parallel briefs/graphics
+const USE_JEV=jevAvailable()&&!flag('no-jev'); // screen with TypeSafe Jev (typed judgments) when a key is present; DeepSeek JSON otherwise
 
 const DEFAULT_QUERIES=[
   // physical AI / embodied
@@ -149,7 +157,7 @@ const knownTitles=new Set([...data.papers.map(p=>norm(p.title)),...atlasPapers.m
 const usedSlugs=new Set([...data.papers.map(p=>p.slug),...atlasPapers.map(p=>p.slug)]);
 const uniqueSlug=t=>{let s=slugify(t)||'paper',i=1;const b=s;while(usedSlugs.has(s))s=`${b}-${++i}`;usedSlugs.add(s);return s};
 
-console.log(`Physical Atlas discover — ${QUERIES.length} queries · sources ${[...SOURCES].join(',')} · window ${DAYS}d · venues ${ANY_VENUE?'any':VENUES.length+' listed'} · LLM ${LLM_MODEL}${GRAPHICS?` · image ${IMAGE_MODEL}`:' · graphics off'}`);
+console.log(`Physical Atlas discover — ${QUERIES.length} queries · sources ${[...SOURCES].join(',')} · window ${DAYS}d · venues ${ANY_VENUE?'any':VENUES.length+' listed'} · screen ${USE_JEV?`TypeSafe ${JEV_MODEL}`:`${LLM_MODEL} (set TYPESAFE_API_KEY or AI_GATEWAY_API_KEY to use Jev)`} · briefs ${LLM_MODEL}${GRAPHICS?` · image ${IMAGE_MODEL}`:' · graphics off'}`);
 const seen=new Map();const perSource={};
 for(const q of (BACKLOG_ONLY?[]:QUERIES)){
   const line=[];
@@ -176,9 +184,16 @@ const backlog=Object.values(data.backlog);
 if(!candidates.length&&!backlog.length)process.exit(0);
 if(backlog.length)console.log(`${backlog.length} already-screened papers waiting in the backlog from earlier runs`);
 
-let tokens=0;const screened=[];
-const batches=[];for(let i=0;i<candidates.length;i+=10)batches.push(candidates.slice(i,i+10));
-await pool(batches,3,async b=>{try{const {results,usage}=await screen(b);tokens+=usage?.total_tokens||0;results.forEach((r,i)=>screened.push({...b[i],screen:r}))}catch(e){console.error(`  ✗ screen batch: ${e.message}`)}});
+let tokens=0,jevTokens=0;const screened=[];
+if(USE_JEV){
+  console.log(`screening ${candidates.length} candidates with TypeSafe ${JEV_MODEL} (7 typed judgments per paper)`);
+  await pool(candidates,8,async c=>{try{const j=await judgePaper(c);jevTokens+=(j.usage?.input_tokens||0)+(j.usage?.output_tokens||0);
+    const d=j.derived;screened.push({...c,screen:{relevant:d.relevant,domain:d.domain,significance:d.significance,reason:d.reason,screener:'jev',jev:{raw:j.raw,derived:d}}});
+  }catch(e){console.error(`  ✗ jev ${c.key}: ${explainAuthError(e)}`);if(isFatal(e))process.exit(2)}});
+}else{
+  const batches=[];for(let i=0;i<candidates.length;i+=10)batches.push(candidates.slice(i,i+10));
+  await pool(batches,3,async b=>{try{const {results,usage}=await screen(b);tokens+=usage?.total_tokens||0;results.forEach((r,i)=>screened.push({...b[i],screen:{...r,screener:'deepseek'}}))}catch(e){console.error(`  ✗ screen batch: ${e.message}`)}});
+}
 const signal=p=>(p.upvotes||0)+(p.citations||0);
 const eligible=[...backlog,...screened.filter(p=>p.screen.relevant&&p.screen.significance>=MIN_SCORE)]
   .sort((a,b)=>(b.screen.significance-a.screen.significance)||(signal(b)-signal(a)));
@@ -212,5 +227,5 @@ await pool(keepers,CONC,async c=>{
   }catch(e){fails++;console.error(`  ✗ brief ${c.key}: ${e.message}`)}
 });
 await save();
-console.log(`\nDone. index now holds ${data.papers.length} discovered papers · ${Object.keys(data.backlog).length} eligible in backlog · ${Object.keys(data.rejected).length} screened out · ${tokens} LLM tokens this run · ${fails} failures`);
+console.log(`\nDone. index now holds ${data.papers.length} discovered papers · ${Object.keys(data.backlog).length} eligible in backlog · ${Object.keys(data.rejected).length} screened out · ${tokens} DeepSeek tokens${jevTokens?` · ${jevTokens} Jev tokens`:''} this run · ${fails} failures`);
 process.exit(fails?1:0);

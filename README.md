@@ -59,11 +59,34 @@ Shared plumbing lives in `scripts/gmi.mjs`: key loading, JSON chat completions w
 
 `data/discovered.json` remembers three things between runs: `papers` (indexed), `backlog` (screened as relevant and significant but not yet indexed because of `--max`; the next run indexes from here first, without re-screening) and `rejected` (irrelevant or below `--min-score`; never re-screened). Semantic Scholar throttles unauthenticated clients; set `S2_API_KEY` or the script backs off and continues with the other sources.
 
+### `npm run classify` — typed judgments with TypeSafe Jev
+
+Every curated and discovered paper is judged by [TypeSafe Jev](https://docs.typesafe.ai), a System One model that returns typed answers with calibrated probabilities instead of text. Seven questions are asked together over the same state (title, venue, date, abstract):
+
+| Question | Primitive | Used for |
+|---|---|---|
+| Is this Physical AI research? | Noul | keep / drop |
+| Which domain (robots, manipulation, locomotion, drones, autonomy, embodied, simulation, other)? | Choice with rubric | domain filter; secondary domains ≥ 0.25 become extra tags |
+| How significant, on five described levels? | Score | ★ filter and default sort |
+| Results on real hardware? · Releases code/weights/data? · Survey or benchmark-only? · Built on a foundation model? | Noul ×4 | facet filters |
+
+Raw probabilities are stored in `data/classified.json`; the thresholds that turn them into filters live in `POLICY` in `scripts/jev.mjs`, so `npm run classify -- --rethreshold` re-derives every filter with no API calls. When a Jev key is present, `npm run discover` also screens new candidates with the same judgments instead of the DeepSeek JSON prompt.
+
+Auth, either of: `TYPESAFE_API_KEY` (direct, `jev-latest`) or `AI_GATEWAY_API_KEY` (Vercel AI Gateway, `typesafe-ai/jev`; the Vercel account must have a card on file or the gateway returns 403). Keys are read from the environment or `.env.local`.
+
+| Flag | Effect |
+|---|---|
+| `--force` | re-judge everything (also happens automatically when the questions change) |
+| `--curated` / `--discovered` | one set only |
+| `--limit N`, `--concurrency N`, `--dry-run` | as elsewhere |
+| `--rethreshold` | apply the current `POLICY` to stored probabilities, no API calls |
+
 ### Cost (list prices before the account discount)
 
 - Brief: ~1,300 tokens on DeepSeek-V4-Flash, fractions of a cent.
 - Graphic: $0.05 list per Seedream 4.0 image (billed ~$0.03 after discount). The 41 curated graphics cost about $1.25.
-- Screening: one call per 10 candidates.
+- Screening (DeepSeek fallback): one call per 10 candidates.
+- Jev classification: the full atlas of 727 papers used 1.09M input and 131k output tokens in one run through api.typesafe.ai; see console.typesafe.ai for the account's rate.
 
 ## How the curated map is selected
 
@@ -82,9 +105,12 @@ lib/data.ts                  server-side assembly of curated + discovered + enri
 lib/gmi.ts                   server-side GMI helpers for API routes
 scripts/gmi.mjs              shared script plumbing (LLM, Studio queue, PNG)
 scripts/enrich.mjs           curated papers → briefs + graphics
-scripts/discover.mjs         multi-source discovery → screen → brief → graphic → index
+scripts/discover.mjs         multi-source discovery → screen (Jev or DeepSeek) → brief → graphic → index
+scripts/jev.mjs              TypeSafe Jev questions, transports (direct / Vercel gateway) and the filter POLICY
+scripts/classify.mjs         judge every paper with Jev → data/classified.json
 data/enriched.json           briefs for curated papers
 data/discovered.json         indexed discoveries + remembered rejections
+data/classified.json         Jev judgments per paper (raw probabilities + derived filters)
 public/graphics/*.png        generated graphics
 SUMMARY.md, PAPERS_ASSEMBLED.md   editor-written per-paper documents (v1.2)
 ```
